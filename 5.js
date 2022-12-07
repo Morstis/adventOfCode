@@ -37,12 +37,12 @@ i[1].forEach((x) => {
 
   if (h.length === 0) return;
   const f = stacks[h[1] - 1];
-  //   console.log(stacks);
+  console.log(stacks);
   const crates = stacks[h[1] - 1].splice(f.length - h[0], f.length);
-  //   console.log(crates, h);
+  console.log(crates, h);
   stacks[h[2] - 1].push(crates);
   stacks[h[2] - 1] = stacks[h[2] - 1].flat(2);
-  //   console.log(stacks);
+  //    console.log(stacks);
   //   for (let i = 1; i <= h[0]; i++) {
   //     stacks[h[2] - 1].push(stacks[h[1] - 1].pop());
   //   }
