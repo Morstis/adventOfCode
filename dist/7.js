@@ -22,7 +22,15 @@ $ ls
 8033020 d.log
 5626152 d.ext
 7214296 k`;
-let sys = { data: [{ name: "/", data: [] }] };
+let sys = {
+    data: [
+        {
+            name: "/",
+            data: [],
+            size: null,
+        },
+    ],
+};
 let pwd = [];
 const r = input.split("\n").map((x) => x.split(" "));
 console.log(r);
@@ -32,26 +40,39 @@ r.forEach((x) => {
             return;
         }
         if (x[1] === "cd") {
-            console.log("change dir");
+            // console.log("change dir");
+            if (x[2] == "..") {
+                console.log("up");
+                setSize();
+            }
             if (x[2] !== "..") {
                 pwd.push(x[2]);
             }
-            if (x[2] == "..") {
-                pwd.pop();
-            }
-            console.log(pwd);
+            // console.log(pwd);
             return;
         }
         return;
     }
     const dir = getDir();
     if (x[0] === "dir") {
-        dir.push({ type: "dir", name: x[1], size: null, data: [] });
+        dir.push({
+            type: "dir",
+            name: x[1],
+            size: null,
+            data: [],
+        });
     }
     else {
-        dir.push({ type: "file", name: x[1], size: parseInt(x[0]) });
+        dir.push({
+            type: "file",
+            name: x[1],
+            size: parseInt(x[0]),
+        });
     }
 });
+while (pwd.length > 0) {
+    setSize();
+}
 console.log(sys);
 function getDir() {
     let currDir = sys.data;
@@ -59,4 +80,11 @@ function getDir() {
         currDir = currDir.filter((x) => x.name === e)[0].data;
     }
     return currDir;
+}
+function setSize() {
+    let dir = getDir();
+    const size = dir.map((c) => c.size).reduce((a, b) => a + b);
+    const b = pwd.pop();
+    dir = getDir();
+    dir.filter((x) => x.name === b)[0].size = size;
 }
