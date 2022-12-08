@@ -1,9 +1,4 @@
-let input8 = `30373
-25512
-65332
-33549
-35390`;
-input8 = `200210101302123001201232003214413304042424024222111455334421333412020113121332322101331130101222121
+let input8 = `200210101302123001201232003214413304042424024222111455334421333412020113121332322101331130101222121
 120100002010203210130421301201404231101254535242322112224524254031333224202413331320010302202022220
 001200100200133300103241144403033124133341435524324143423341133252144040000423121430200100022211211
 000012321202320024030320421230202213131514345325422513145221212451233202023402411040301113132131121
@@ -103,12 +98,19 @@ input8 = `2002101013021230012012320032144133040424240242221114553344213334120201
 020011123333222200003244032430305123255531342321413242534522552125444313014002424233330331130222200
 100220000312023302114114440201033304323431155212155522541415515211123243000444221343002001121202102`;
 
+// input8 = `30373
+// 25512
+// 65332
+// 33549
+// 35390`;
+
 const i = input8.split("\n").map((x) => x.split("").map((y) => parseInt(y)));
 console.log(i);
 
 const visible: number[] = [];
 
 const n = i.length;
+let count: number[][] = [];
 
 for (let x = 0; x < n; x++) {
   for (let y = 0; y < n; y++) {
@@ -118,62 +120,39 @@ for (let x = 0; x < n; x++) {
 }
 
 console.log(visible, visible.length);
+console.log(count);
+const c = count.map((c) => c.reduce((a, b) => a * b));
+console.log(c);
+console.log(Math.max(...c));
 
 function find(x: number, y: number, e: number) {
+  count.push([0, 0, 0, 0]);
   let a = findUp(x, y, e);
   // console.log(visible, a);
   if (a !== undefined) {
     visible.push(a);
-    return;
+    // return;
   }
   a = findRight(x, y, e);
   // console.log(visible, a);
   if (a !== undefined) {
     visible.push(a);
-    return;
+    // return;
   }
 
   a = findDown(x, y, e);
   // console.log(visible, a);
   if (a !== undefined) {
     visible.push(a);
-    return;
+    // return;
   }
 
   a = findLeft(x, y, e);
   // console.log(visible, a);
   if (a !== undefined) {
     visible.push(a);
-    return;
+    // return;
   }
-
-  // edges
-  //   if (x === 0 || y === 0 || x === n - 1 || y === n - 1) {
-  //     visible.push(e);
-  //     return;
-  //   }
-
-  //   //up
-  //   if (i[x - 1][y] < i[x][y]) {
-  //     find(x - 1, y, e);
-  //     // return;
-  //   }
-  //   // Rigth
-  //   if (i[x][y + 1] < i[x][y]) {
-  //     find(x, y + 1, e);
-  //     // return;
-  //   }
-
-  //   // down
-  //   if (i[x + 1][y] < i[x][y]) {
-  //     find(x + 1, y, e);
-  //     // return;
-  //   }
-  //   // Rigth
-  //   if (i[x][y - 1] < i[x][y]) {
-  //     find(x, y - 1, e);
-  //     // return;
-  //   }
 }
 
 function findUp(x: number, y: number, e: number): number | undefined {
@@ -181,6 +160,7 @@ function findUp(x: number, y: number, e: number): number | undefined {
     // visible.push(e);
     return e;
   }
+  count[count.length - 1][0]++;
   if (i[x - 1][y] < e) {
     return findUp(x - 1, y, e);
   }
@@ -192,6 +172,7 @@ function findRight(x: number, y: number, e: number): number | undefined {
     // visible.push(e);
     return e;
   }
+  count[count.length - 1][1]++;
   if (i[x][y + 1] < e) {
     return findRight(x, y + 1, e);
   }
@@ -203,6 +184,7 @@ function findLeft(x: number, y: number, e: number): number | undefined {
     // visible.push(e);
     return e;
   }
+  count[count.length - 1][2]++;
   if (i[x][y - 1] < e) {
     return findLeft(x, y - 1, e);
   }
@@ -214,6 +196,7 @@ function findDown(x: number, y: number, e: number): number | undefined {
     // visible.push(e);
     return e;
   }
+  count[count.length - 1][3]++;
   if (i[x + 1][y] < e) {
     return findDown(x + 1, y, e);
   }
