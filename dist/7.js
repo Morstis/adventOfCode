@@ -1,4 +1,3 @@
-"use strict";
 let input = `$ cd /
 $ ls
 dir a
@@ -1130,3 +1129,4 @@ function setSize() {
     dir.filter((x) => x.name === b)[0].size = size;
     results.push(size);
 }
+export {};

@@ -1137,3 +1137,5 @@ function setSize() {
   dir.filter((x: any) => x.name === b)[0].size = size;
   results.push(size);
 }
+
+export {};
